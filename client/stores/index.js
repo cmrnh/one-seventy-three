@@ -21,6 +21,18 @@ var Store = Reflux.createStore({
     // TODO: trigger loading indicator state change
   },
 
+  onSearchArtistCompleted: function(response) {
+    console.log('onSearchArtistCompleted');
+    this.suggestedArtists = response.data.response.artists;
+    this.trigger(this.suggestedArtists);
+    // TODO: trigger loading indicator state change
+  },
+
+  onSearchArtistFailed: function() {
+    console.log('onSearchArtistFailed');
+    // TODO: trigger loading indicator state change and failure notification
+  }
+
 });
 
 module.exports = Store;

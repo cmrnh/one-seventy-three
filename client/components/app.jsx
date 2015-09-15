@@ -1,7 +1,9 @@
 var React = require('react');
 var http = require('axios');
+var Reflux = require('reflux');
 var _ = require('lodash');
 
+var Actions = require('../actions');
 var Artist = require('./artist.jsx');
 
 var App = React.createClass({
@@ -14,42 +16,12 @@ var App = React.createClass({
 
     handleSearchClick: function(e) {
       var artistName = React.findDOMNode(this.refs.artistName); // get the DOM node
-
-      http({
-        method: 'get',
-        url: 'http://developer.echonest.com/api/v4/artist/similar',
-        headers: { 
-          'Content-Type': 'application/json' 
-        },
-        params: {
-          'name': artistName.value,
-          'api_key': 'NXYHVSJ5L3KAWFU6W'
-        }
-      }).then(function(response) {
-        this.setState({
-          suggestedArtists: response.data.response.artists
-        })
-      }.bind(this));
-
+      Actions.searchArtist(artistName.value);
       artistName.value = ''; // clear the input
     },
 
     handleArtistClick: function(e) {
-      http({
-        method: 'get',
-        url: 'http://developer.echonest.com/api/v4/artist/similar',
-        headers: { 
-          'Content-Type': 'application/json' 
-        },
-        params: {
-          'name': e.target.text,
-          'api_key': 'NXYHVSJ5L3KAWFU6W'
-        }
-      }).then(function(response) {
-        this.setState({
-          suggestedArtists: response.data.response.artists
-        })
-      }.bind(this));
+      Actions.searchArtist(e.target.text);
     },
 
     render: function() {

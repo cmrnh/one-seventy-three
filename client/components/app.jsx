@@ -1,18 +1,17 @@
 var React = require('react');
-var http = require('axios');
 var Reflux = require('reflux');
 var _ = require('lodash');
 
 var Actions = require('../actions');
+var Store = require('../stores');
+
 var Artist = require('./artist.jsx');
 
 var App = React.createClass({
 
-    getInitialState: function() {
-      return {
-        suggestedArtists: []
-      }
-    },
+    mixins: [
+      Reflux.connect(Store, 'suggestedArtists')
+    ],
 
     handleSearchClick: function(e) {
       var artistName = React.findDOMNode(this.refs.artistName); // get the DOM node
